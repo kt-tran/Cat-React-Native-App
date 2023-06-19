@@ -1,2 +1,2 @@
-# Cat React Native App
+# Cat App React Native
  React Native + Expo
