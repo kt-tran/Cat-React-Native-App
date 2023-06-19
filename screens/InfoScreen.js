@@ -1,0 +1,72 @@
+import React, { useState } from "react";
+import { Text, View, TextInput, StyleSheet } from "react-native";
+import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Image, ScrollView } from "native-base";
+import scaleSize from "../constants/Layout";
+
+export default function InfoScreen() {
+    return (
+        <NativeBaseProvider>
+            <ScrollView>
+                <VStack>
+                    <Image source={{
+                        uri: "https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg"
+                    }} alt="a tabby cat's paw rests atop a silver keyboard with black keys" size="xl" />
+                </VStack>
+                <VStack>
+                    < Text >Our mission is to simply share information, facts and knowledge about cat breeds for anyone interested in cats. We believe that all pets are more than just animal companions - they're family members too. While dogs have an appeal unique to them,
+                        cats are beautiful, loving creatures who we believe deserve a little more love.
+                        Throughout history, cats have been humans' companions for a long time, and while they have faded in and out of companionship vs free-range predators, cats can offer
+                        unique connections and life lessons.
+                        We love cats and we hope that you'll love them too.</ Text >
+                </VStack>
+                <VStack>
+                    <Image source={{
+                        uri: "https://images.pexels.com/photos/20787/pexels-photo.jpg"
+                    }} alt="A black, cream and brown coloured cat with green eyes looking up to the camera from below." size="xl" />
+                </VStack>
+                <VStack>
+                    < Text >Our Team </ Text >
+                    <Text>
+                        While our team works hard to update our information, some data may not be the most recent or accurate. Please always research further for any medical inquiries or contact your closest vet
+                        to confirm any information before making a big decision.
+                        We are always looking for new ideas and feedback to improve our platform, so please don't hesitate to reach out to us with any suggestions or questions.
+                    </Text>
+                </VStack>
+                <VStack>
+                    <Image source={{
+                        uri: "https://images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg"
+                    }} alt="a orange haired cat with amber eyes against a blurred predominately white background" size="xl" />
+                </VStack>
+                <VStack>
+                    <Center p="3">
+                        <Text>
+                            Have a question? We're happy to answer.
+                        </Text>
+                    </Center>
+                    <Center p="2">
+                        <Text>
+                            Email us at example@email.com
+                        </Text>
+                    </Center>
+                    <Center p="2">
+                        <Text>
+                            Phone us at 1800 123 456
+                        </Text>
+                        <Text>
+                            Mon - Fri
+                        </Text>
+                        <Text>
+                            9AM - 5PM
+                        </Text>
+                    </Center>
+                </VStack>
+            </ScrollView>
+        </NativeBaseProvider>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        paddingTop: 50,
+    }
+});

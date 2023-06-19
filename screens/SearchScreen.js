@@ -1,0 +1,136 @@
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, ScrollView } from "react-native";
+import { useLoggerContext } from "../contexts/LoggerProvider";
+import { HandleGetList } from "../utilities/api";
+import { GetCountries } from "../utilities/options";
+import { Container, NativeBaseProvider, VStack, Heading, Input, Icon, Box, HStack, Text, AspectRatio, Image, Center } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
+
+
+// export default function SearchScreen() {
+//     const [log, setLog] = useLoggerContext();
+//     return (
+//         <View style={styles.container}>
+//             <GetData />
+//         </View>
+//     );
+// }
+
+export default function SearchScreen() {
+    const { loading, list, error } = HandleGetList();
+    const [choice, setChoice] = useState();
+    const countries = GetCountries();
+
+    let options = [
+        { value: "name", label: "Breed" },
+        { value: "origin", label: "Country" }
+    ]
+
+    let countryList = countries.map((country) => (
+        { value: country, label: country }
+    ));
+    const CountryOptions = countryList;
+
+    const CatOptions = list.map((cat) => (
+        { value: cat.name, label: cat.name }
+    ));
+
+
+    const [searchRes, setSearchRes] = useState([]);
+
+    useEffect(() => {
+        setSearchRes(list);
+    }, [list])
+
+
+    const handleChangeCountry = (selectedOption) => {
+        let res = []
+        list.forEach(cat => {
+            if (cat.origin === selectedOption.value) {
+                res.push(cat);
+            }
+        })
+        setSearchRes(res);
+    }
+
+    const handleChangeCat = (selectedOption) => {
+        let res = []
+        list.forEach(cat => {
+            if (cat.name === selectedOption.value) {
+                res.push(cat);
+            }
+        })
+        setSearchRes(res);
+    }
+
+    const handleChangeCategory = (selectedOption) => {
+        setChoice(selectedOption.value);
+    }
+
+    layoutCounter = 0;
+
+    return (
+        <NativeBaseProvider>
+            <ScrollView centerContent="true">
+                <Text style={styles.header}> Find a cat breed by typing a breed name</Text>
+                <Input placeholder="Search" variant="filled" width="100%" borderRadius="10" py="1" px="2" InputLeftElement={<Icon ml="2" size="4" color="gray.400" as={<Ionicons name="ios-search" />} />} />
+                <Box m={2}>
+                    {list.map((cat) => (
+                        <Box bg="white" shadow={2} rounded="lg" m={3}>
+                            <HStack>
+                                <Image resizeMode="cover" rounded="lg"
+                                    source={{
+                                        uri: `https://cdn2.thecatapi.com/images/${cat.reference_image_id}.jpg`
+                                    }}
+                                    alt={`a ${cat.name} cat`} size="xl" />
+                                <Center>
+                                    <VStack mx={2}>
+                                        <Heading size="md">{cat.name}</Heading>
+                                        <Heading size="sm">{cat.origin}</Heading>
+                                    </VStack>
+                                </Center>
+                            </HStack>
+                        </Box>
+                    )
+                    )}
+                </Box>
+            </ScrollView>
+        </NativeBaseProvider>
+    );
+}
+
+
+//TODO:
+//  Logger functionality (detect when you add it to the list)
+// function Event(props) {
+//     const [, , addEvent] = useLoggerContext();
+
+//     return <Text onPress={() => addEvent(props.event)} style={styles.event}>
+//         {props.event}
+//     </Text>
+// }
+
+// function EventList(props) {
+//     return (
+//         <View>
+//             {props.events.map(x => (
+//                 <Event event={x.event} key={x.event} />
+//             ))}
+//         </View>
+//     );
+// }
+
+const styles = StyleSheet.create({
+    container: { flex: 1 },
+    event: {
+        backgroundColor: "green",
+        textAlign: "center",
+        padding: 5,
+        borderRadius: 10,
+        margin: 2,
+    },
+    header: {
+        textAlign: "center",
+        marginVertical: 4,
+    },
+});
