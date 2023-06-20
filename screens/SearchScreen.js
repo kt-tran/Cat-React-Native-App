@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { useLoggerContext } from "../contexts/LoggerProvider";
-import { HandleGetList } from "../utilities/api";
+// import { useLoggerContext } from "../contexts/SearchProvider";
+import { HandleGetBreedsList } from "../utilities/api";
 import { GetCountries } from "../utilities/options";
 import { Container, NativeBaseProvider, VStack, Heading, Input, Icon, Box, HStack, Text, AspectRatio, Image, Center } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,7 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 // }
 
 export default function SearchScreen() {
-    const { loading, list, error } = HandleGetList();
+    const { loading, list, error } = HandleGetBreedsList();
     const [choice, setChoice] = useState();
     const countries = GetCountries();
 

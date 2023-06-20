@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, StyleSheet, ImageBackground } from "react-native";
-import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading, extend } from "native-base";
+import { Text, View, TextInput, StyleSheet, ImageBackground, Alert } from "react-native";
+import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading } from "native-base";
 import { useNavigation } from "@react-navigation/native";
+import { scaleSize } from '../constants/Layout';
 import * as EmailValidator from 'email-validator';
 
 export default function LoginScreen() {
@@ -28,6 +29,7 @@ function LoginForm() {
   const [password, setPassword] = React.useState("");
   const [errorEmail, setErrorEmail] = React.useState(false);
   const [errorPassword, setErrorPassword] = React.useState(false);
+  const navigation = useNavigation();
 
   const validate = () => {
     if (!EmailValidator.validate(email)) {
@@ -39,8 +41,6 @@ function LoginForm() {
 
     if (password.length === 0) {
       setErrorPassword(true);
-      console.log(errorPassword);
-      console.log(password.length);
     }
     else {
       setErrorPassword(false);
@@ -52,8 +52,31 @@ function LoginForm() {
       return true;
   };
 
+  const failAlert = () => {
+    Alert.alert('Uh oh!', "It looks like you weren't finished. Please try again", [
+      { text: 'OK', onPress: () => { console.log("OK pressed") } },
+    ]);
+  }
+
   const onSubmit = () => {
-    validate() ? console.log('Submitted') : console.log('Validation Failed');
+    if (validate()) {
+      fetch(`http://192.168.1.186:3001/users/login`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      })
+        .catch(e => {
+          console.log(e)
+        })
+      navigation.push("Main");
+    }
+    else {
+      failAlert();
+      console.log("Validation Failed");
+    }
   };
 
   return (

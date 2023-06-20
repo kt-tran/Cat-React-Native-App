@@ -15,7 +15,7 @@ export async function GetCatImageList(catID) {
  * handles promise returned by GetBreedList()
  *  @returns loading and error state + list of cat breeds
  */
-export function HandleGetList() {
+export function HandleGetBreedsList() {
     const [loading, setLoading] = useState(true);
     const [list, setList] = useState([]);
     const [error, setError] = useState(null);
@@ -44,4 +44,34 @@ export async function GetBreedList() {
     let res = await fetch(url);
     let list = await res.json();
     return list;
+}
+
+//functions for the cat facts in footer
+export function HandleGetFact() {
+    const [loading, setLoading] = useState(true);
+    const [response, setResponse] = useState([]);
+    const [error, setError] = useState(null);
+    useEffect(() => {
+        (async () => {
+            try {
+                setResponse(await GetRandomCatFact());
+                setLoading(false);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        })();
+    }, []);
+    return {
+        loading,
+        response,
+        error,
+    };
+}
+
+export async function GetRandomCatFact() {
+    const url = `https://catfact.ninja/fact`;
+    let res = await fetch(url);
+    let data = await res.json();
+    return data;
 }

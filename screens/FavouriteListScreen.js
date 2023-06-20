@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, Button, View, ScrollView, StyleSheet } from "react-native";
-import { useLoggerContext } from "../contexts/LoggerProvider";
+import { useLoggerContext } from "../contexts/SearchProvider";
 
 export default function FavListScreen() {
     return <Text>Favourites List</Text>

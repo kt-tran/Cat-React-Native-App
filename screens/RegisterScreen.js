@@ -55,15 +55,21 @@ function RegistrationForm() {
       return true;
   };
 
-  const createAlert = () => {
+  const successAlert = () => {
     Alert.alert('Welcome to Purrfect Paws!', 'Thanks for registering an account :)', [
       { text: 'OK', onPress: () => { navigation.push("Login"); } },
     ]);
   }
 
+  const failAlert = () => {
+    Alert.alert('Uh oh!', "It looks like you weren't finished. Please try again", [
+      { text: 'OK', onPress: () => { console.log("OK pressed") } },
+    ]);
+  }
+
   const onSubmit = () => {
     if (validate()) {
-      createAlert();
+      successAlert();
       fetch(`http://192.168.1.186:3001/users/register`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -71,7 +77,7 @@ function RegistrationForm() {
           email: email,
           username: username,
           password: password
-        })
+        }) //TODO: implement duplicate user creation alert for user, at the moment it just sends 409 to terminal on backend but nothing on front end
       })
         .catch(e => {
           console.log(e)
@@ -79,6 +85,7 @@ function RegistrationForm() {
 
     }
     else {
+      failAlert();
       console.log('Validation Failed');
     }
   };

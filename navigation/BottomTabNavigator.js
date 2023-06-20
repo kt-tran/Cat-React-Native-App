@@ -8,6 +8,7 @@ import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
 import InfoScreen from "../screens/InfoScreen";
 import TabBarIcon from "../components/TabBarIcon";
+import CatDetailScreen from "../screens/CatDetailScreen";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
@@ -24,12 +25,12 @@ export default function BottomTabNavigator({ navigation, route }) {
                 tabBarActiveBackgroundColor: '#2F3E46',
                 tabBarActiveTintColor: "white",
                 tabBarInactiveTintColor: 'white',
+                headerShown: false,
             }}>
             <BottomTab.Screen
                 name="Home"
                 component={FavListScreen}
                 options={{
-                    title: "Favourites",
                     tabBarIcon: ({ focused }) => (
                         <TabBarIcon focused={focused} name="heart" />
                     ),
@@ -39,7 +40,6 @@ export default function BottomTabNavigator({ navigation, route }) {
                 name="Search"
                 component={SearchScreen}
                 options={{
-                    title: "Search",
                     tabBarIcon: ({ focused }) => (
                         <TabBarIcon focused={focused} name="search-outline" />
                     ),
@@ -49,7 +49,15 @@ export default function BottomTabNavigator({ navigation, route }) {
                 name="Info"
                 component={InfoScreen}
                 options={{
-                    title: "Information",
+                    tabBarIcon: ({ focused }) => (
+                        <TabBarIcon focused={focused} name="information-circle" />
+                    ),
+                }}
+            />
+            <BottomTab.Screen
+                name="Test"
+                component={CatDetailScreen}
+                options={{
                     tabBarIcon: ({ focused }) => (
                         <TabBarIcon focused={focused} name="information-circle" />
                     ),
