@@ -13,7 +13,7 @@ export default function LandingScreen() {
                     <Pressable
                         style={styles.button}
                         onPress={() => {
-                            navigation.push("Main");
+                            navigation.push("Login");
                         }}
                     >
                         <Text style={styles.buttonText}> Get Started </Text>

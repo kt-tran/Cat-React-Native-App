@@ -5,7 +5,8 @@ import BottomTabNavigator from "./BottomTabNavigator";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from '../screens/LandingScreen';
-import LoginScreen from "../screens/Login";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from '../screens/RegisterScreen';
 
 export default function StackNav() {
     const Stack = createStackNavigator();
@@ -21,6 +22,11 @@ export default function StackNav() {
                 <Stack.Screen
                     name="Login"
                     component={LoginScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Register"
+                    component={RegisterScreen}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen

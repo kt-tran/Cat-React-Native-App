@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 
 import FavListScreen from "../screens/FavouriteListScreen";
 import SearchScreen from "../screens/SearchScreen";
-import LoginScreen from "../screens/Login";
+import LoginScreen from "../screens/LoginScreen";
 import InfoScreen from "../screens/InfoScreen";
 import TabBarIcon from "../components/TabBarIcon";
 
@@ -52,18 +52,6 @@ export default function BottomTabNavigator({ navigation, route }) {
                     title: "Information",
                     tabBarIcon: ({ focused }) => (
                         <TabBarIcon focused={focused} name="information-circle" />
-                    ),
-                }}
-            />
-            {/* to be removed and put into stack navigator later */}
-            <BottomTab.Screen
-                name="SignIn"
-                component={LoginScreen}
-                options={{
-                    headerTitle: "Welcome back!",
-                    tabBarLabel: "Login",
-                    tabBarIcon: ({ focused }) => (
-                        <TabBarIcon focused={focused} name="log-in-outline" />
                     ),
                 }}
             />
