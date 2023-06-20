@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, StyleSheet, ImageBackground, Alert } from "react-native";
+import { Text, View, StyleSheet, ImageBackground, Alert } from "react-native";
 import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { scaleSize } from '../constants/Layout';
 import * as EmailValidator from 'email-validator';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function LoginScreen() {
   const [value, setValue] = React.useState("");
@@ -30,6 +32,14 @@ function LoginForm() {
   const [errorEmail, setErrorEmail] = React.useState(false);
   const [errorPassword, setErrorPassword] = React.useState(false);
   const navigation = useNavigation();
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('my-key', value);
+    } catch (e) {
+      // saving error
+    }
+  };
 
   const validate = () => {
     if (!EmailValidator.validate(email)) {
@@ -68,9 +78,18 @@ function LoginForm() {
           password: password
         })
       })
-        .catch(e => {
-          console.log(e)
-        })
+      .then(res => res.json())
+      .then(res => {
+        if (res.error === true) {
+          throw Error("Token error")
+        }
+
+        storeData(res.token)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+
       navigation.push("Main");
     }
     else {

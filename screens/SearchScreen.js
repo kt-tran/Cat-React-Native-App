@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-// import { useLoggerContext } from "../contexts/SearchProvider";
+import { useListContext } from "../contexts/ListProvider";
 import { HandleGetBreedsList } from "../utilities/api";
 import { GetCountries } from "../utilities/options";
-import { Container, NativeBaseProvider, VStack, Heading, Input, Icon, Box, HStack, Text, AspectRatio, Image, Center } from "native-base";
+import { Container, NativeBaseProvider, VStack, Heading, Input, Icon, Box, HStack, Text, AspectRatio, Image, Center, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 
 
@@ -16,8 +16,24 @@ import { Ionicons } from "@expo/vector-icons";
 //     );
 // }
 
+function FavCat(props) {
+    const [, , addCat] = useListContext();
+
+    return (
+        <Button onPress={() => addCat(props.id)} style={styles.button}>
+            <Ionicons
+                name={"heart-outline"}
+                size={40}
+                style={{ marginBottom: -3 }}
+                color={"red"}
+            />
+        </Button>
+    );
+}
+
 export default function SearchScreen() {
     const { loading, list, error } = HandleGetBreedsList();
+    const [favList, setFavList] = useListContext();
     const [choice, setChoice] = useState();
     const countries = GetCountries();
 
@@ -71,7 +87,7 @@ export default function SearchScreen() {
 
     return (
         <NativeBaseProvider>
-            <ScrollView centerContent="true">
+            <ScrollView style={styles.container}>
                 <Text style={styles.header}> Find a cat breed by typing a breed name</Text>
                 <Input placeholder="Search" variant="filled" width="100%" borderRadius="10" py="1" px="2" InputLeftElement={<Icon ml="2" size="4" color="gray.400" as={<Ionicons name="ios-search" />} />} />
                 <Box m={2}>
@@ -89,6 +105,7 @@ export default function SearchScreen() {
                                         <Heading size="sm">{cat.origin}</Heading>
                                     </VStack>
                                 </Center>
+                                <FavCat id={cat.id} name={cat.name} image={cat.reference_image_id} />
                             </HStack>
                         </Box>
                     )
@@ -121,7 +138,10 @@ export default function SearchScreen() {
 // }
 
 const styles = StyleSheet.create({
-    container: { flex: 1 },
+    container: {
+        flex: 1,
+        margin: 10,
+    },
     event: {
         backgroundColor: "green",
         textAlign: "center",
@@ -132,5 +152,10 @@ const styles = StyleSheet.create({
     header: {
         textAlign: "center",
         marginVertical: 4,
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
     },
 });

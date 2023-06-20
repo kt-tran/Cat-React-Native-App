@@ -1,7 +1,7 @@
-import { HandleGetList } from "./api";
+import { HandleGetBreedsList } from "./api";
 
 export function GetCountries() {
-    const { loading, list, error } = HandleGetList();
+    const { loading, list, error } = HandleGetBreedsList();
     let countries = [];
     list.map((cat) => (
         countries.push(cat.origin)

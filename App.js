@@ -3,15 +3,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import { createStackNavigator } from '@react-navigation/stack';
-import { LoggerProvider } from "./contexts/SearchProvider";
+import { ListProvider } from "./contexts/ListProvider";
 import StackNav from './navigation/StackNavigator';
 
 export default function App() {
 
   return (
-    <LoggerProvider>
+    <ListProvider>
       <StackNav />
-    </LoggerProvider>
+    </ListProvider>
   );
 }
 
