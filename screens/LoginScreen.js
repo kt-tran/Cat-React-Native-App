@@ -11,10 +11,6 @@ export default function LoginScreen() {
 
   return (
     <NativeBaseProvider>
-      {/* TODO:
-        If user exists then log in
-        else create user account
-        Need to render different forms for the above */}
       <ImageBackground source={{ uri: 'https://w.wallhaven.cc/full/eo/wallhaven-eod6w8.jpg' }} resizeMode="cover" style={styles.image}>
         <Center style={styles.base}>
           <Heading size={"2xl"} mb="3" color="white">Login</ Heading >
@@ -28,25 +24,32 @@ export default function LoginScreen() {
 }
 
 function LoginForm() {
-  const [formData, setData] = React.useState({});
-  const [errors, setErrors] = React.useState({});
+  const [email, setEmail] = React.useState({});
+  const [password, setPassword] = React.useState("");
+  const [errorEmail, setErrorEmail] = React.useState(false);
+  const [errorPassword, setErrorPassword] = React.useState(false);
 
   const validate = () => {
-    if (formData.name === undefined) {
-      setErrors({
-        ...errors,
-        name: 'Name is required'
-      });
-      return false;
-    } else if (formData.name.length < 3) {
-      setErrors({
-        ...errors,
-        name: 'Name is too short'
-      });
-      return false;
+    if (!EmailValidator.validate(email)) {
+      setErrorEmail(true);
+    }
+    else {
+      setErrorEmail(false);
     }
 
-    return true;
+    if (password.length === 0) {
+      setErrorPassword(true);
+      console.log(errorPassword);
+      console.log(password.length);
+    }
+    else {
+      setErrorPassword(false);
+    }
+
+    if (errorEmail || errorPassword)
+      return false;
+    else
+      return true;
   };
 
   const onSubmit = () => {
@@ -56,35 +59,31 @@ function LoginForm() {
   return (
     <Box alignSelf="center" width="90%" mx="3">
       <Box pb="5">
-        <FormControl isInvalid={'name' in errors}>
+        <FormControl isInvalid={errorEmail}>
           <FormControl.Label _text={{
             color: "white"
           }}>Email</FormControl.Label>
-          <Input placeholder="yourname@example.com" onChangeText={value => setData({
-            ...formData,
-            name: value
-          })} color="white" />
-          {'name' in errors ? <FormControl.ErrorMessage>That is not a valid email address.</FormControl.ErrorMessage> : <FormControl.HelperText _text={{
-            color: "white"
-          }}>
-            Please enter your email address.
-          </FormControl.HelperText>}
+          <Input placeholder="yourname@example.com" onChangeText={email => setEmail(email)} color="white" />
+          {errorEmail
+            ? <FormControl.ErrorMessage>That is not a valid email address.</FormControl.ErrorMessage>
+            : <FormControl.HelperText _text={{
+              color: "white"
+            }}>
+              Please enter your email address.
+            </FormControl.HelperText>}
         </FormControl>
       </Box>
       <Box>
-        <FormControl>
+        <FormControl isInvalid={errorPassword}>
           <FormControl.Label _text={{
             color: "white"
-          }}>Password</FormControl.Label>
-          <Input type="password" placeholder="Password" color="white" />
-          <FormControl.HelperText _text={{
-            color: "white"
-          }}>
-            Must be atleast 6 characters.
-          </FormControl.HelperText>
-          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-            Please enter your password.
-          </FormControl.ErrorMessage>
+          }} >Password</FormControl.Label>
+          <Input placeholder="Password" color="white" onChangeText={password => setPassword(password)} />
+          {errorPassword
+            ? <FormControl.ErrorMessage >
+              Please enter your password.
+            </FormControl.ErrorMessage>
+            : null}
         </FormControl>
       </Box>
       <Button onPress={onSubmit} mt="5" style={styles.button}>

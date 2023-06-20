@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, StyleSheet, ImageBackground } from "react-native";
-import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading, extend } from "native-base";
+import { Text, View, TextInput, StyleSheet, ImageBackground, Alert } from "react-native";
+import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { scaleSize } from '../constants/Layout';
 import * as EmailValidator from 'email-validator';
@@ -33,16 +33,15 @@ function RegistrationForm() {
   const [password, setPassword] = React.useState("");
   const [errorEmail, setErrorEmail] = React.useState(false);
   const [errorPassword, setErrorPassword] = React.useState(false);
+  const navigation = useNavigation();
 
   const validate = () => {
-
     if (!EmailValidator.validate(email)) {
       setErrorEmail(true);
     }
     else {
       setErrorEmail(false);
     }
-
     if (password.length < 6) {
       setErrorPassword(true);
     }
@@ -56,22 +55,32 @@ function RegistrationForm() {
       return true;
   };
 
+  const createAlert = () => {
+    Alert.alert('Welcome to Purrfect Paws!', 'Thanks for registering an account :)', [
+      { text: 'OK', onPress: () => { navigation.push("Login"); } },
+    ]);
+  }
+
   const onSubmit = () => {
-    validate();
-    fetch(`http://192.168.1.186:3001/users/register`, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        email: "yes@gmail.com",
-        username: "test123",
-        password: "password"
+    if (validate()) {
+      createAlert();
+      fetch(`http://192.168.1.186:3001/users/register`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          username: username,
+          password: password
+        })
       })
-    })
-      .then(console.log("then"))
-      .catch(e => {
-        console.log(e)
-      })
-    validate() ? console.log('Submitted') : console.log('Validation Failed');
+        .catch(e => {
+          console.log(e)
+        })
+
+    }
+    else {
+      console.log('Validation Failed');
+    }
   };
 
   return (
