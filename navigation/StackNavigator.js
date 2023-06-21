@@ -14,7 +14,7 @@ export default function StackNav() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen
+                {/* <Stack.Screen
                     name="Root"
                     component={LandingScreen}
                     options={{ headerShown: false }}
@@ -28,7 +28,7 @@ export default function StackNav() {
                     name="Register"
                     component={RegisterScreen}
                     options={{ headerShown: false }}
-                />
+                /> */}
                 <Stack.Screen
                     name="Main"
                     component={BottomTabNavigator}

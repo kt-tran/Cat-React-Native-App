@@ -10,7 +10,6 @@ export default function InfoScreen() {
         <NativeBaseProvider>
             <ScrollView style={styles.container}>
                 <Center>
-
                     <Heading mt={4}>About Us</Heading>
                     <Box m={3}>
                         < Text >Our mission is to simply share information, facts and knowledge about cat breeds for anyone interested in cats. We believe that all pets are more than just animal companions - they're family members too. While dogs have an appeal unique to them,
@@ -19,34 +18,32 @@ export default function InfoScreen() {
                             unique connections and life lessons.
                             We love cats and we hope that you'll love them too.</ Text >
                     </Box>
-                    <HStack mx={20} my={3}>
-                        <Image rounded="lg" mx={2} source={{
-                            uri: "https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg"
-                        }} alt="a tabby cat's paw rests atop a silver keyboard with black keys" size="xl" />
+                    <Image rounded="lg" source={{
+                        uri: "https://images.pexels.com/photos/1440387/pexels-photo-1440387.jpeg"
+                    }} alt="a tabby cat's paw rests atop a silver keyboard with black keys" size="xl" />
 
-                        <Box alignItems="center">
-                            <Box maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
-                                borderColor: "coolGray.600",
-                                backgroundColor: "gray.700"
-                            }} _web={{
-                                shadow: 2,
-                                borderWidth: 0
-                            }} _light={{
-                                backgroundColor: "gray.50"
-                            }}>
-                                <Stack p="4" space={3}>
-                                    <Stack space={2}>
-                                        <Heading textAlign="center" size="md" ml="-1">
-                                            Did you know?
-                                        </Heading>
-                                    </Stack>
-                                    <Text>
-                                        {response.fact}
-                                    </Text>
+                    <Box alignItems="center" mt={3}>
+                        <Box maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
+                            borderColor: "coolGray.600",
+                            backgroundColor: "gray.700"
+                        }} _web={{
+                            shadow: 2,
+                            borderWidth: 0
+                        }} _light={{
+                            backgroundColor: "gray.50"
+                        }}>
+                            <Stack p="4" space={3}>
+                                <Stack space={2}>
+                                    <Heading textAlign="center" size="md" ml="-1">
+                                        Did you know?
+                                    </Heading>
                                 </Stack>
-                            </Box>
+                                <Text textAlign="center">
+                                    {response.fact}
+                                </Text>
+                            </Stack>
                         </Box>
-                    </HStack>
+                    </Box>
                     {/* <Image source={{
                         uri: "https://images.pexels.com/photos/20787/pexels-photo.jpg"
                     }} alt="A black, cream and brown coloured cat with green eyes looking up to the camera from below." size="xl" /> */}
@@ -91,5 +88,6 @@ export default function InfoScreen() {
 const styles = StyleSheet.create({
     container: {
         paddingTop: 50,
+        backgroundColor: '#F0F5EE',
     },
 });

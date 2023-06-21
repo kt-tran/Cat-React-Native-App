@@ -6,31 +6,6 @@ import { GetCountries } from "../utilities/options";
 import { Container, NativeBaseProvider, VStack, Heading, Input, Icon, Box, HStack, Text, AspectRatio, Image, Center, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 
-
-// export default function SearchScreen() {
-//     const [log, setLog] = useLoggerContext();
-//     return (
-//         <View style={styles.container}>
-//             <GetData />
-//         </View>
-//     );
-// }
-
-function FavCat(props) {
-    const [, , addCat] = useListContext();
-
-    return (
-        <Button onPress={() => addCat(props.id)} style={styles.button}>
-            <Ionicons
-                name={"heart-outline"}
-                size={40}
-                style={{ marginBottom: -3 }}
-                color={"red"}
-            />
-        </Button>
-    );
-}
-
 export default function SearchScreen() {
     const { loading, list, error } = HandleGetBreedsList();
     const [favList, setFavList] = useListContext();
@@ -105,7 +80,17 @@ export default function SearchScreen() {
                                         <Heading size="sm">{cat.origin}</Heading>
                                     </VStack>
                                 </Center>
-                                <FavCat id={cat.id} name={cat.name} image={cat.reference_image_id} />
+                                <Button onPress={() => {
+                                    catDetails = { id: cat.id, name: cat.name, imageURL: cat.reference_image_id }
+                                    setFavList(favList => [...favList, catDetails])
+                                }} style={styles.button}>
+                                    <Ionicons
+                                        name={"heart-outline"}
+                                        size={40}
+                                        style={{ marginBottom: -3 }}
+                                        color={"red"}
+                                    />
+                                </Button>
                             </HStack>
                         </Box>
                     )
@@ -141,6 +126,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 10,
+        backgroundColor: '##F0F5EE',
     },
     event: {
         backgroundColor: "green",

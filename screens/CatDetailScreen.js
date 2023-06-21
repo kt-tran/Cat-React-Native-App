@@ -13,7 +13,7 @@ function CustomCarousel(props) {
     })
     return (
         <View style={{ flex: 1 }}>
-            <CarouselSlider images={imgArr} />
+            <CarouselSlider images={imgArr} style={[styles.container, { backgroundColor: '#F0F5EE' }]} />
         </View>
     );
 }
@@ -77,7 +77,7 @@ export default function CatDetailScreen() {
         return (
             <NativeBaseProvider>
                 <Center style={{ flex: 1 }}>
-                    <Text> Loading... </Text>
+                    <Heading> Loading... </Heading>
                     <Image mx={2} source={{
                         uri: "https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
                     }} alt="a loading icon is spinning" size="xl" />
@@ -120,5 +120,9 @@ export default function CatDetailScreen() {
 const styles = StyleSheet.create({
     container: {
         paddingTop: 50,
+        backgroundColor: '#F0F5EE',
     },
+    carousel: {
+        backgroundColor: '#F0F5EE',
+    }
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, createContext, useContext } from "react";
-import { Text, Button, View, ScrollView, StyleSheet } from "react-native";
+import { Text, Button, View, ScrollView, StyleSheet, Box, HStack, Image, Center, VStack, Heading } from "react-native";
 import { useListContext } from "../contexts/ListProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -28,46 +28,54 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 //     return ();
 // }
 export default function FavListScreen() {
-    return (
-        <View style={styles.container}>
-            <Text>Favourites List</Text>
-            <GenerateList />
-        </View>
-    );
-}
-
-function GenerateList() {
     const [list, setList] = useListContext();
     return (
         <ScrollView style={styles.container}>
-            {list.map((x) => (
-                <Cat {...x} key={x.name} />
-            ))}
+            <Text>Favourites List</Text>
+            {list.map((cat) => {
+                return (
+                    <Text>Cat name is {cat.id}</Text>
+                );
+            }
+            )}
+            <Text>Hello</Text>
+            {/* <GenerateList /> */}
         </ScrollView>
     );
 }
 
-function Cat(props) {
-    return (
-        <View>
-            <Box bg="white" shadow={2} rounded="lg" m={3}>
-                <HStack>
-                    <Image resizeMode="cover" rounded="lg"
-                        source={{
-                            uri: `https://cdn2.thecatapi.com/images/${props.cat.reference_image_id}.jpg`
-                        }}
-                        alt={`a ${props.cat.name} cat`} size="xl" />
-                    <Center>
-                        <VStack mx={2}>
-                            <Heading size="md">{props.cat.name}</Heading>
-                        </VStack>
-                    </Center>
-                    {/* TODO: REMOVE CAT FROM LIST BUTTON */}
-                </HStack>
-            </Box>
-        </View>
-    );
-}
+// function GenerateList() {
+//     const [list, setList] = useListContext();
+//     return (
+//         <ScrollView style={styles.container}>
+//             {list.map((x) => (
+//                 <Cat {...x} key={x.name} />
+//             ))}
+//         </ScrollView>
+//     );
+// }
+
+// function Cat(props) {
+//     return (
+//         <View>
+//             <Box bg="white" shadow={2} rounded="lg" m={3}>
+//                 <HStack>
+//                     {/* <Image resizeMode="cover" rounded="lg"
+//                         source={{
+//                             uri: `https://cdn2.thecatapi.com/images/${props.cat.reference_image_id}.jpg`
+//                         }}
+//                         alt={`a ${props.cat.name} cat`} size="xl" /> */}
+//                     <Center>
+//                         <VStack mx={2}>
+//                             <Heading size="md">{props.key}</Heading>
+//                         </VStack>
+//                     </Center>
+//                     {/* TODO: REMOVE CAT FROM LIST BUTTON */}
+//                 </HStack>
+//             </Box>
+//         </View>
+//     );
+// }
 
 const styles = StyleSheet.create({
     container: {
