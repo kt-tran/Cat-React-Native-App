@@ -6,13 +6,7 @@ export const useListContext = () => useContext(ListContext);
 
 
 export const ListProvider = ({ children }) => {
-    const [list, setList] = useState([
-        {
-            name: "",
-            id: "",
-            imageURL: "",
-        }
-    ]);
+    const [list, setList] = useState([]);
 
 
     return (

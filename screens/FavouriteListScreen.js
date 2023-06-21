@@ -1,6 +1,8 @@
-import React, { useEffect, createContext, useContext } from "react";
-import { Text, Button, View, ScrollView, StyleSheet, Box, HStack, Image, Center, VStack, Heading } from "react-native";
+import React, { useEffect, createContext, useContext, useState } from "react";
+import { Text, ScrollView, StyleSheet, FlatList } from "react-native";
+import { Container, NativeBaseProvider, Box, HStack, Image, Center, VStack, Heading, Button } from "native-base";
 import { useListContext } from "../contexts/ListProvider";
+import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
@@ -27,59 +29,70 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //     return ();
 // }
+
 export default function FavListScreen() {
     const [list, setList] = useListContext();
+    const [refreshFlatlist, setRefreshFlatList] = useState(false);
+    const removeItem = (id) => {
+        let index = list.findIndex((catInList) => catInList.id === id);
+        console.log(index);
+        newList = list
+        newList.splice(index, 1)
+        setList(newList);
+        setRefreshFlatList(!refreshFlatlist)
+    }
+    console.log(list);
+
     return (
-        <ScrollView style={styles.container}>
-            <Text>Favourites List</Text>
-            {list.map((cat) => {
-                return (
-                    <Text>Cat name is {cat.id}</Text>
-                );
-            }
-            )}
-            <Text>Hello</Text>
+        <NativeBaseProvider>
+            <Heading>Favourites List</Heading>
+            <FlatList
+                data={list}
+                extraData={refreshFlatlist}
+                renderItem={({ item }) => {
+                    return (
+                        <Box bg="white" shadow={2} rounded="lg" m={3}>
+                            <HStack>
+                                <Image resizeMode="cover" rounded="lg"
+                                    source={{
+                                        uri: `https://cdn2.thecatapi.com/images/${item.imageURL}.jpg`
+                                    }}
+                                    alt={`a ${item.name} cat`} size="xl" />
+                                <Center>
+                                    <VStack mx={2}>
+                                        <Heading size="md">{item.name}</Heading>
+                                        <Heading size="sm">{item.origin}</Heading>
+                                    </VStack>
+                                </Center>
+                                <Button onPress={() => {
+                                    removeItem(item.id)
+                                }} style={styles.button}>
+                                    <Ionicons
+                                        name={"trash-outline"}
+                                        size={40}
+                                        style={{ marginBottom: -3 }}
+                                        color={"black"}
+                                    />
+                                </Button>
+                            </HStack>
+                        </Box>
+                    );
+                }}
+            />
             {/* <GenerateList /> */}
-        </ScrollView>
+        </NativeBaseProvider >
     );
 }
 
-// function GenerateList() {
-//     const [list, setList] = useListContext();
-//     return (
-//         <ScrollView style={styles.container}>
-//             {list.map((x) => (
-//                 <Cat {...x} key={x.name} />
-//             ))}
-//         </ScrollView>
-//     );
-// }
-
-// function Cat(props) {
-//     return (
-//         <View>
-//             <Box bg="white" shadow={2} rounded="lg" m={3}>
-//                 <HStack>
-//                     {/* <Image resizeMode="cover" rounded="lg"
-//                         source={{
-//                             uri: `https://cdn2.thecatapi.com/images/${props.cat.reference_image_id}.jpg`
-//                         }}
-//                         alt={`a ${props.cat.name} cat`} size="xl" /> */}
-//                     <Center>
-//                         <VStack mx={2}>
-//                             <Heading size="md">{props.key}</Heading>
-//                         </VStack>
-//                     </Center>
-//                     {/* TODO: REMOVE CAT FROM LIST BUTTON */}
-//                 </HStack>
-//             </Box>
-//         </View>
-//     );
-// }
-
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: '#F0F5EE',
         flex: 1,
         margin: 10,
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
     },
 });

@@ -81,7 +81,7 @@ export default function SearchScreen() {
                                     </VStack>
                                 </Center>
                                 <Button onPress={() => {
-                                    catDetails = { id: cat.id, name: cat.name, imageURL: cat.reference_image_id }
+                                    catDetails = { id: cat.id, name: cat.name, imageURL: cat.reference_image_id, origin: cat.origin }
                                     setFavList(favList => [...favList, catDetails])
                                 }} style={styles.button}>
                                     <Ionicons
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 10,
-        backgroundColor: '##F0F5EE',
+        backgroundColor: '#F0F5EE',
     },
     event: {
         backgroundColor: "green",
