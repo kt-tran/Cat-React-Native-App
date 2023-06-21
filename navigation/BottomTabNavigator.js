@@ -54,15 +54,6 @@ export default function BottomTabNavigator({ navigation, route }) {
                     ),
                 }}
             />
-            <BottomTab.Screen
-                name="Test"
-                component={CatDetailScreen}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <TabBarIcon focused={focused} name="information-circle" />
-                    ),
-                }}
-            />
         </BottomTab.Navigator>
     );
 }

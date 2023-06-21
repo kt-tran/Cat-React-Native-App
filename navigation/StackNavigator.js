@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from '../screens/LandingScreen';
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from '../screens/RegisterScreen';
+import CatDetailScreen from '../screens/CatDetailScreen';
 
 export default function StackNav() {
     const Stack = createStackNavigator();
@@ -32,6 +33,11 @@ export default function StackNav() {
                 <Stack.Screen
                     name="Main"
                     component={BottomTabNavigator}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="CatDetail"
+                    component={CatDetailScreen}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

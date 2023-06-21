@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Stack, Heading, Box, Center, NativeBaseProvider, VStack, Button, Container, Image, ScrollView, HStack } from "native-base";
 import { HandleGetBreedsList, GetCatImageList } from "../utilities/api";
-import scaleSize from "../constants/Layout";
+import { scaleSize } from "../constants/Layout";
 import { HandleGetFact } from "../utilities/api";
 import { CarouselSlider } from "react-native-carousel-image-slider";
 
@@ -87,8 +87,11 @@ export default function CatDetailScreen() {
     } else if (error || imageError) {
         return (
             <NativeBaseProvider>
-                <Center>
-                    <Text> An error has occurred. Please try again later. </Text>
+                <Center style={{ flex: 1 }}>
+                    <Heading> An error has occurred. Please try again later. </Heading>
+                    <Image mx={2} source={{
+                        uri: "https://cliply.co/wp-content/uploads/2021/09/142109670_SAD_CAT_400.gif"
+                    }} alt="a drawn pale pink cat is frowning" size="xl" />
                 </Center>
             </NativeBaseProvider>
         )
@@ -119,10 +122,7 @@ export default function CatDetailScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 50,
+        paddingTop: scaleSize(50),
         backgroundColor: '#F0F5EE',
     },
-    carousel: {
-        backgroundColor: '#F0F5EE',
-    }
 });
