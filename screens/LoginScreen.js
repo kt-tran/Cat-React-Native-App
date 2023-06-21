@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, ImageBackground, Alert } from "react-native";
-import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading } from "native-base";
+import { Text, View, StyleSheet, ImageBackground, Alert, Platform } from "react-native";
+import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading, } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { scaleSize } from '../constants/Layout';
 import * as EmailValidator from 'email-validator';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
 export default function LoginScreen() {
@@ -15,12 +16,21 @@ export default function LoginScreen() {
   return (
     <NativeBaseProvider>
       <ImageBackground source={{ uri: 'https://w.wallhaven.cc/full/eo/wallhaven-eod6w8.jpg' }} resizeMode="cover" style={styles.image}>
-        <Center style={styles.base}>
-          <Heading size={"2xl"} mb="3" color="white">Login</ Heading >
-          <Text style={styles.subheading}>Please enter your details to sign in.</ Text >
-          <LoginForm />
-          <Text style={styles.changetext}> Don't have an account? <Text style={styles.buttonish} onPress={() => { navigation.push("Register"); }}>Sign up</Text></Text>
-        </Center>
+        {Platform.OS === 'ios' ?
+          <Center style={styles.base}>
+            <KeyboardAwareScrollView style={styles.ios}>
+              <Heading size={"2xl"} mb="3" color="white">Login</ Heading >
+              <Text style={styles.subheading}>Please enter your details to sign in.</ Text >
+              <LoginForm />
+              <Text style={styles.changetext}> Don't have an account? <Text style={styles.buttonish} onPress={() => { navigation.push("Register"); }}>Sign up</Text></Text>
+            </KeyboardAwareScrollView>
+          </Center> :
+          <Center style={styles.base}>
+            <Heading size={"2xl"} mb="3" color="white">Login</ Heading >
+            <Text style={styles.subheading}>Please enter your details to sign in.</ Text >
+            <LoginForm />
+            <Text style={styles.changetext}> Don't have an account? <Text style={styles.buttonish} onPress={() => { navigation.push("Register"); }}>Sign up</Text></Text>
+          </Center>}
       </ImageBackground>
     </NativeBaseProvider>
   );
@@ -63,7 +73,13 @@ function LoginForm() {
   };
 
   const failAlert = () => {
-    Alert.alert('Uh oh!', "It looks like you weren't finished. Please try again", [
+    Alert.alert('Uh oh!', "It looks like you weren't finished. Please try again.", [
+      { text: 'OK', onPress: () => { console.log("OK pressed") } },
+    ]);
+  }
+
+  const badCredentials = () => {
+    Alert.alert('Uh oh!', "It looks your email or password were incorrect. Please try again.", [
       { text: 'OK', onPress: () => { console.log("OK pressed") } },
     ]);
   }
@@ -78,19 +94,19 @@ function LoginForm() {
           password: password
         })
       })
-      .then(res => res.json())
-      .then(res => {
-        if (res.error === true) {
-          throw Error("Token error")
-        }
+        .then(res => res.json())
+        .then(res => {
+          if (res.error === true) {
+            throw Error(res.message)
+          }
 
-        storeData(res.token)
-      })
-      .catch(e => {
-        console.log(e)
-      })
-
-      navigation.push("Main");
+          storeData(res.token)
+          navigation.push("Main")
+        })
+        .catch(e => {
+          badCredentials();
+          return;
+        })
     }
     else {
       failAlert();
@@ -146,27 +162,30 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
+    paddingVertical: scaleSize(12),
+    paddingHorizontal: scaleSize(32),
+    borderRadius: scaleSize(4),
+    elevation: scaleSize(3),
     backgroundColor: '#354F52',
   },
   subheading: {
     color: 'white',
-    fontSize: 14,
+    fontSize: scaleSize(14),
     textAlign: 'center',
-    marginBottom: 100,
+    marginBottom: scaleSize(25),
     justifyContent: "flex-start",
   },
   changetext: {
     color: 'white',
-    fontSize: 14,
+    fontSize: scaleSize(14),
     textAlign: 'center',
-    marginTop: 15,
+    marginTop: scaleSize(15),
     justifyContent: "flex-end",
   },
   buttonish: {
     fontWeight: "900",
+  },
+  ios: {
+    marginTop: scaleSize(100),
   }
 });

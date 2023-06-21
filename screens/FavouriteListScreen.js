@@ -40,6 +40,7 @@ export default function FavListScreen() {
         newList = list
         newList.splice(index, 1)
         setList(newList);
+        AsyncStorage.setItem("catList", JSON.stringify(newList));
         setRefreshFlatList(!refreshFlatlist)
     }
     console.log(list);

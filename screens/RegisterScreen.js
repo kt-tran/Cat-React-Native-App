@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, StyleSheet, ImageBackground, Alert } from "react-native";
+import { Text, View, TextInput, StyleSheet, ImageBackground, Alert, Platform } from "react-native";
 import { FormControl, Input, Stack, WarningOutlineIcon, Box, Center, NativeBaseProvider, VStack, Button, Container, Heading } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { scaleSize } from '../constants/Layout';
@@ -15,13 +15,21 @@ export default function RegisterScreen() {
   return (
     <NativeBaseProvider>
       <ImageBackground source={{ uri: 'https://w.wallhaven.cc/full/eo/wallhaven-eod6w8.jpg' }} resizeMode="cover" style={styles.image}>
-        <Center style={styles.base}>
-          <KeyboardAwareScrollView>
+        {Platform.OS === 'ios' ?
+          <Center style={styles.base}>
+            <KeyboardAwareScrollView style={styles.ios}>
+              <Heading size={"2xl"} mb="3" color="white">Create Account</ Heading >
+              <RegistrationForm />
+              <Text style={styles.changetext}> Already have an account? <Text style={styles.buttonish} onPress={() => { navigation.push("Login"); }}>Log in here</Text></Text>
+            </KeyboardAwareScrollView>
+          </Center>
+          :
+          <Center style={styles.base}>
             <Heading size={"2xl"} mb="3" color="white">Create Account</ Heading >
             <RegistrationForm />
             <Text style={styles.changetext}> Already have an account? <Text style={styles.buttonish} onPress={() => { navigation.push("Login"); }}>Log in here</Text></Text>
-          </KeyboardAwareScrollView>
-        </Center>
+          </Center>
+        }
       </ImageBackground>
     </NativeBaseProvider>
   );
@@ -151,20 +159,23 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
+    paddingVertical: scaleSize(12),
+    paddingHorizontal: scaleSize(32),
+    borderRadius: scaleSize(4),
+    elevation: scaleSize(3),
     backgroundColor: '#354F52',
   },
   changetext: {
     color: 'white',
     fontSize: scaleSize(12),
     textAlign: 'center',
-    marginTop: 15,
+    marginTop: scaleSize(15),
     justifyContent: "flex-end",
   },
   buttonish: {
     fontWeight: "900",
+  },
+  ios: {
+    marginTop: scaleSize(100),
   }
 });

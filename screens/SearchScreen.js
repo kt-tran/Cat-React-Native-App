@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList, TouchableOpacity, Touchable } from "react-native";
+import { StyleSheet, View, FlatList, TouchableOpacity, Touchable, Alert } from "react-native";
 import { useListContext } from "../contexts/ListProvider";
 import { HandleGetBreedsList } from "../utilities/api";
 import { GetCountries } from "../utilities/options";
@@ -7,6 +7,7 @@ import { Container, NativeBaseProvider, VStack, Heading, Input, Icon, Box, HStac
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { scaleSize } from "../constants/Layout";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SearchScreen() {
     const { loading, list, error } = HandleGetBreedsList();
@@ -86,6 +87,12 @@ export default function SearchScreen() {
     // layoutCounter = 0;
     const navigation = useNavigation();
 
+    const dupeAlert = () => {
+        Alert.alert('Uh oh!', "It looks like you've already favourited that cat, please select another.", [
+          { text: 'OK', onPress: () => { console.log("OK pressed") } },
+        ]);
+      }
+
     return (
         <NativeBaseProvider>
             <View style={styles.container}>
@@ -100,7 +107,7 @@ export default function SearchScreen() {
                     extraData={refreshFlatlist}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity onPress={() => { navigation.push("CatDetail") }}>
+                            <TouchableOpacity onPress={() => { navigation.navigate("CatDetail", {id: item.id}) }}>
                                 <Box bg="white" shadow={2} rounded="lg" m={2} style={styles.card}>
                                     <HStack>
                                         <Image resizeMode="cover" rounded="md"
@@ -113,7 +120,20 @@ export default function SearchScreen() {
                                             <Heading size="sm">{item.origin}</Heading>
                                             <Button onPress={() => {
                                                 catDetails = { id: item.id, name: item.name, imageURL: item.reference_image_id, origin: item.origin }
-                                                setFavList(favList => [...favList, catDetails])
+                                                let dupe = false
+
+                                                const found = favList.find((catObj) => {
+                                                    if (catObj.name === catDetails.name) {
+                                                        dupeAlert();
+                                                        dupe = true;
+                                                        return
+                                                    }
+                                                })
+
+                                                if (!dupe) {
+                                                    AsyncStorage.setItem("catList", JSON.stringify([...favList, catDetails]));
+                                                    setFavList(favList => [...favList, catDetails])
+                                                } 
                                             }} style={styles.button}>
                                                 <Ionicons
                                                     name={"heart-outline"}

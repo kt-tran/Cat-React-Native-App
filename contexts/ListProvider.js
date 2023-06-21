@@ -8,6 +8,23 @@ export const useListContext = () => useContext(ListContext);
 export const ListProvider = ({ children }) => {
     const [list, setList] = useState([]);
 
+    let _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("catList");
+            console.log("Retrieved list");
+            if (value !== null) {
+                // We have data!!
+                console.log(JSON.parse(value))
+                setList(JSON.parse(value));
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
+
+    useEffect(() => {
+        _retrieveData();
+    }, []);
 
     return (
         <ListContext.Provider

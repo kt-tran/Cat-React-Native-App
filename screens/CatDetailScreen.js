@@ -51,10 +51,10 @@ function FunFact(props) {
     );
 }
 
-export default function CatDetailScreen() {
+export default function CatDetailScreen({navigation, route}) {
     const { factLoading, response, factError } = HandleGetFact();
     const { loading, list, error } = HandleGetBreedsList();
-    let cat = list.find((list) => list.id === "chau");
+    let cat = list.find((list) => list.id === route.params.id);
 
     //carousel state management
     const [imageLoading, setImageLoading] = useState(true);
@@ -64,14 +64,14 @@ export default function CatDetailScreen() {
     useEffect(() => {
         (async () => {
             try {
-                setCatImageObj(await GetCatImageList("chau"));
+                setCatImageObj(await GetCatImageList(route.params.id));
                 setImageLoading(false);
             } catch (imageError) {
                 setImageError(imageError);
                 setImageLoading(false);
             }
         })();
-    }, ["chau"]);
+    }, [cat]);
 
     if (loading || imageLoading) {
         return (

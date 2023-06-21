@@ -2,6 +2,7 @@ import React from 'react';
 import { ImageBackground, StyleSheet, Text, View, Pressable } from 'react-native';
 import { NativeBaseProvider, Container, Center } from "native-base";
 import { useNavigation } from "@react-navigation/native";
+import { scaleSize } from "../constants/Layout";
 
 export default function LandingScreen() {
     const navigation = useNavigation();
@@ -30,8 +31,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
-        fontSize: 42,
-        lineHeight: 84,
+        fontSize: scaleSize(42),
+        lineHeight: scaleSize(84),
         fontWeight: 'bold',
         textAlign: 'center',
         paddingTop: 25,
@@ -39,17 +40,17 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
+        paddingVertical: scaleSize(12),
+        paddingHorizontal: scaleSize(32),
+        borderRadius: scaleSize(4),
+        elevation: scaleSize(3),
         backgroundColor: '#354F52',
     },
     buttonText: {
-        fontSize: 16,
-        lineHeight: 21,
+        fontSize: scaleSize(16),
+        lineHeight: scaleSize(21),
         fontWeight: 'bold',
-        letterSpacing: 0.25,
+        letterSpacing: scaleSize(0.25),
         color: 'white',
     }
 });
